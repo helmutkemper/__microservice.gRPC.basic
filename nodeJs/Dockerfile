@@ -12,9 +12,9 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 RUN cd /node/src/app/nodeJs
 
-WORKDIR /node/src/app/nodeJs
+WORKDIR /
 
-RUN npm install
+#RUN npm install
 #RUN node /go/src/app/nodeJs/dynamic_codegen/greeter_client.js
 
 EXPOSE 50051:50051
