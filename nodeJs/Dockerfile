@@ -4,7 +4,7 @@ RUN mkdir -p /node/src/app
 RUN mkdir -p /gRPC
 WORKDIR /node/src/app
 
-RUN export REPO_ROOT=./gRPC
+RUN export REPO_ROOT=/gRPC
 #RUN git clone -b $(curl -L https://grpc.io/release) https://github.com/grpc/grpc $REPO_ROOT
 
 COPY . /node/src/app
@@ -16,7 +16,6 @@ WORKDIR /node/src/app/nodeJs
 
 RUN npm install
 RUN npm rebuild
-#RUN node /go/src/app/nodeJs/dynamic_codegen/greeter_client.js
 
 EXPOSE 50051:50051
 EXPOSE 80:80
