@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+
+  pygocentrus:
+    build:
+      context: ./
+      dockerfile: ./GoLang/pygocentrus/Dockerfile
+    command: go run main.go
+    working_dir: /go/src/app
+    environment:
+      - IN_PORT=${pygocentrus_in_port}
+      - OUT_ADDR=${grpc_server_ip}
+      - OUT_PORT=${pygocentrus_out_port}
+    networks:
+      grpc_basic_net:
+        ipv4_address: ${pygocentrus_ip}
+
+  golang-grpc-server:
+    build:
+      context: ./
+      dockerfile: ./GoLang/server/Dockerfile
+    command: go run main.go
+    working_dir: /go/src/app
+    environment:
+      - PORT=${grpc_port}
+    networks:
+      grpc_basic_net:
+        ipv4_address: ${grpc_server_ip}
+    depends_on:
+      - pygocentrus
+
+  golang-grpc-client:
+    build:
+      context: ./
+      dockerfile: ./GoLang/client/Dockerfile
+    command: go run main.go
+    working_dir: /go/src/app
+    environment:
+      - ADDR=${pygocentrus_ip}
+      - PORT=${grpc_port}
+      - NAME=gRPC Dev
+    networks:
+      grpc_basic_net:
+    depends_on:
+      - pygocentrus
+      - golang-grpc-server
+
+  nodejs-grpc-client:
+    build:
+      context: ./
+      dockerfile: ./nodeJs/Dockerfile
+    working_dir: /go/src/app
+    environment:
+      - PORT=${grpc_port}
+    networks:
+      grpc_basic_net:
+    depends_on:
+      - pygocentrus
+      - golang-grpc-server
+
+
+
+networks:
+  grpc_basic_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${subnet_ip_mask}
