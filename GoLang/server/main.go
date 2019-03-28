@@ -42,6 +42,9 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 func main() {
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "50051"
+	}
 
 	fmt.Printf("gRPC server listen(%v)\n", ":"+port)
 

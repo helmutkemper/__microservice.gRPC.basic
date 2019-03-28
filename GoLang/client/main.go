@@ -33,6 +33,9 @@ func main() {
 
 	addr := os.Getenv("ADDR")
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "50051"
+	}
 	name := os.Getenv("NAME")
 
 	fmt.Printf("gRPC client dial(%v)\n", addr+":"+port)
