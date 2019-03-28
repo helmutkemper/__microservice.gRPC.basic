@@ -28,7 +28,7 @@ func main() {
 		Pygocentrus: pygocentrus.Pygocentrus{
 			Enabled: true,
 			ChangeContent: pygocentrus.ChangeContent{
-				Rate:           0.5,
+				Rate:           0.0,
 				ChangeBytesMin: 1,
 				ChangeBytesMax: 10,
 			},
